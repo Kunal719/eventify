@@ -5,8 +5,8 @@ import Link from "next/link";
 export default function Home() {
   return (
     <>
-      <section className="bg-primary-50 bg-dotted-pattern bg-contain">
-        <div className="flex lg:flex-row flex-col flex-center gap-28 max-xl:gap-16 p-14 max-lg:gap-10">
+      <section className="bg-primary-50 bg-dotted-pattern bg-contain wrapper">
+        <div className="flex lg:flex-row flex-col flex-center gap-28 max-lg:gap-10">
           <div className="flex flex-col items-start gap-8 justify-between">
             <h1 className="text-6xl leading-snug font-bold max-sm:text-4xl max-sm:leading-[50px]">
               <span className="whitespace-nowrap relative">Host, Connect,</span>
@@ -27,8 +27,8 @@ export default function Home() {
         </div>
       </section>
 
-      <section id="events" className="flex flex-center">
-        <div className="flex flex-col items-start gap-8 md:gap-12 max-xl:gap-16 p-14 max-lg:gap-10">
+      <section id="events" className="wrapper flex">
+        <div className="flex flex-col items-start gap-8 md:gap-12 max-xl:gap-16 max-lg:gap-10">
           <h2 className="text-4xl font-bold">Trusted by <br /> thousands of events</h2>
           <div className="flex w-full flex-col gap-5 md:flex-row">
             Search
