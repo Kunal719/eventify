@@ -53,13 +53,19 @@ export const getEventById = async (eventId: string) => {
     }
 }
 
-export const getAllEvents = async ({ query, limit = 6, page, category }: GetAllEventsParams) => {
+export const getAllEvents = async ({ query, limit, page, category }: GetAllEventsParams) => {
     try {
         await connectDB()
-        const conditions = {};
+        const titleCondition = query ? { title: { $regex: query, $options: 'i' } } : {}
+        const categoryCondition = category ? await getCategoryByName(category) : null
+        const conditions = {
+            $and: [titleCondition, categoryCondition ? { category: categoryCondition._id } : {}],
+        }
+
+        const skipAmount = (Number(page) - 1) * limit
         const eventsQuery = Event.find(conditions)
             .sort({ createdAt: 'desc' })
-            .skip(0)
+            .skip(skipAmount)
             .limit(limit);
 
         const events = await populateEvent(eventsQuery);
@@ -107,7 +113,7 @@ export const updateEvent = async ({ userId, event, path }: UpdateEventParams) =>
     }
 }
 
-export const getEventsByUser = async ({ userId, limit = 6, page }: GetEventsByUserParams) => {
+export const getEventsByUser = async ({ userId, limit = 3, page }: GetEventsByUserParams) => {
     try {
         await connectDB()
 
