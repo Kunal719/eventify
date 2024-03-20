@@ -35,8 +35,8 @@ import { IEvent } from "@/lib/db/models/Event"
 type EventFormProps = {
     userId: string
     type: "Create" | "Update",
-    event: IEvent | undefined,
-    eventId: string | undefined
+    event?: IEvent | undefined,
+    eventId?: string | undefined
 }
 
 const EventForm = ({ userId, type, event, eventId }: EventFormProps) => {
