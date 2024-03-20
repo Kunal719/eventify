@@ -1,4 +1,4 @@
-import React, { startTransition, useState } from 'react'
+import React, { startTransition, useEffect, useState } from 'react'
 
 import {
     Select,
@@ -21,6 +21,7 @@ import {
     AlertDialogTrigger,
 } from "@/components/ui/alert-dialog"
 import { Input } from '../ui/input'
+import { CreateCategory, getAllCategories } from '@/lib/actions/category.actions'
 
 
 
@@ -33,8 +34,20 @@ const Dropdown = ({ value, onChangeHandler }: DropDownProps) => {
     const [newCategory, setNewCategory] = useState('');
 
     const handleAddCategory = () => {
-
+        CreateCategory({ categoryName: newCategory.trim() }).then((category) => {
+            setCategories([...categories, category])
+            setNewCategory('');
+        })
     }
+
+    useEffect(() => {
+        const getCategories = async () => {
+            const categoryList = await getAllCategories()
+            categoryList && setCategories(categoryList as ICategory[])
+        }
+
+        getCategories();
+    }, [])
 
     return (
         <Select onValueChange={onChangeHandler} defaultValue={value}>
@@ -47,7 +60,7 @@ const Dropdown = ({ value, onChangeHandler }: DropDownProps) => {
                 ))}
 
                 <AlertDialog>
-                    <AlertDialogTrigger className='p-medium-14 flex w-full rounded-sm py-3 pl-8 text-primary-500 hover:bg-primary-50'>Open</AlertDialogTrigger>
+                    <AlertDialogTrigger className='p-medium-14 flex w-full rounded-sm py-3 pl-8 text-primary-500 hover:bg-primary-50'>Add New Category</AlertDialogTrigger>
                     <AlertDialogContent className='bg-white'>
                         <AlertDialogHeader>
                             <AlertDialogTitle>New Category</AlertDialogTitle>
